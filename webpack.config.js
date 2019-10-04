@@ -1,11 +1,13 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const config = {
+	mode: "production",
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "build"),
@@ -14,22 +16,45 @@ const config = {
 		chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
   },
   optimization: {
+		minimize: true,
 		minimizer: [
-			// new OptimizeCSSAssetsPlugin({
-			// 	cssProcessorOptions: {
-			// 		parser: safePostCssParser,
-			// 		map: {
-			// 			inline: false,
-			// 			annotation: true,
-			// 		}
-			// 	},
-			// }),
+			new TerserPlugin({
+				terserOptions: {
+					parse: {
+						ecma: 8,
+					},
+					compress: {
+						ecma: 5,
+						warnings: false,
+						comparisons: false,
+						inline: 2,
+					},
+					mangle: {
+						safari10: true,
+					},
+					output: {
+						ecma: 5,
+						comments: false,
+						ascii_only: true,
+					},
+				},
+				extractComments: false,
+				parallel: true,
+				cache: true,
+				sourceMap: true,
+			}),
 		],
-		runtimeChunk: "single",
 		splitChunks: {
 			chunks: "all",
 			name: false,
-		}
+		},
+		// runtimeChunk: "single",
+		// runtimeChunk: {
+		// 	name: entrypoint => `runtime-${entrypoint.name}`,
+		// },
+		runtimeChunk: {
+			name: entrypoint => `runtime-${entrypoint.name}`,
+		},
 	},
   resolve: {
     extensions: [
