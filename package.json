@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "serve dist",
+    "start": "serve ./build",
     "watch": "webpack -d --watch --mode development",
     "build": "webpack -p --mode production"
   },

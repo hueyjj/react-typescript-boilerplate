@@ -81,7 +81,7 @@ const config = {
 					{
 						test: /\.scss$/,
 						use: [
-							"style-loader",
+							MiniCssExtractPlugin.loader,
 							"css-loader",
 							"sass-loader"
 						]
@@ -123,10 +123,10 @@ const config = {
 				minifyURLs: true,
 			},
 		}),
-		// new MiniCssExtractPlugin({
-		// 	filename: "static/css/[name].[contenthash:8].css",
-		// 	chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
-		// }),
+		new MiniCssExtractPlugin({
+			filename: "static/css/[name].[contenthash:8].css",
+			chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+		}),
   ],
 }
 
