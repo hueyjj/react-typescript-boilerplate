@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const glob = require("glob");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -9,14 +10,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 //const allEntries = glob.sync("./src/*.page.tsx");
 const allEntries = { 
-	"home": "./src/index.page.tsx", 
+	"home": "./src/home.page.tsx", 
 	"signup": "./src/signup.page.tsx",
 }
 console.log(allEntries);
 
 const config = {
 	mode: "production",
-  // entry: "./src/index.tsx",
   entry: allEntries,
   output: {
     path: path.resolve(__dirname, "build"),
@@ -115,11 +115,14 @@ const config = {
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
+		new CopyWebpackPlugin([
+			{ from: "public" },
+		]),
 		new HtmlWebpackPlugin({
 			inject: true,
 			chunks: ["home"],
 			filename: "home.html",
-			template: "./public/index.html",
+			template: "./templates/home.html",
 			favicon: "./public/favicon.ico",
 			minify: {
 				removeComments: true,
@@ -138,7 +141,7 @@ const config = {
 			inject: true,
 			filename: "signup.html",
 			chunks: ["signup"],
-			template: "./public/signup.html",
+			template: "./templates/signup.html",
 			favicon: "./public/favicon.ico",
 			minify: {
 				removeComments: true,

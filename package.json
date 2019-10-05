@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "serve ./build",
-    "watch": "webpack -d --watch --mode development",
-    "build": "webpack -p --mode production"
+    "watch": "webpack --config ./config/webpack.config.dev.js",
+    "build": "webpack --config ./config/webpack.config.prod.js"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.1",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "glob": "^7.1.4",
