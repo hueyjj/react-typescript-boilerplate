@@ -12,8 +12,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const pages = require("./pages");
 const paths = require("./paths");
-console.log(pages)
-console.log(paths)
+
 const config = {
 	mode: "development",
 	watch: true,
@@ -21,6 +20,7 @@ const config = {
 		poll: 1000,
 		ignored: /node_modules/,
 	},
+	stats: "minimal",
 	devtool: "inline-source-map",
   entry: pages.entries,
   output: {

@@ -11,7 +11,7 @@ class App extends React.Component<Props> {
     return (
       <div>
         Hello {this.props.name}
-        <button>Click me!</button>
+        <button>Clck me!</button>
       </div>
     );
   }

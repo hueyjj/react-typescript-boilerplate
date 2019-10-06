@@ -12,4 +12,3 @@ module.exports = {
   appPages: resolveApp("src/pages"),
   appSrc: resolveApp("src"),
 };
-console.log(module.exports)
