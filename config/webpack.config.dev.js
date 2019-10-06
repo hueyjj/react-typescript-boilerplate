@@ -1,6 +1,8 @@
+"use strict";
+
 const webpack = require("webpack");
 const path = require("path");
-const glob = require("glob");
+const fs = require("fs");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin");
@@ -8,51 +10,27 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-//const allEntries = glob.sync("./src/*.page.tsx");
-const allEntries = { 
-	"home": "./src/home.page.tsx", 
-	"signup": "./src/signup.page.tsx",
-}
-console.log(allEntries);
-
+const pages = require("./pages");
+const paths = require("./paths");
+console.log(pages)
+console.log(paths)
 const config = {
-	mode: "production",
-  entry: allEntries,
+	mode: "development",
+	watch: true,
+	watchOptions: {
+		poll: 1000,
+		ignored: /node_modules/,
+	},
+	devtool: "inline-source-map",
+  entry: pages.entries,
   output: {
-    path: path.resolve(__dirname, "build"),
+		path: paths.appBuild,
 		filename: "static/js/[name].[contenthash:8].js",
 		futureEmitAssets: true,
 		chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
   },
   optimization: {
-		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				terserOptions: {
-					parse: {
-						ecma: 8,
-					},
-					compress: {
-						ecma: 5,
-						warnings: false,
-						comparisons: false,
-						inline: 2,
-					},
-					mangle: {
-						safari10: true,
-					},
-					output: {
-						ecma: 5,
-						comments: false,
-						ascii_only: true,
-					},
-				},
-				extractComments: false,
-				parallel: true,
-				cache: true,
-				sourceMap: true,
-			}),
-		],
+		minimize: false,
 		splitChunks: {
 			chunks: "all",
 			name: false,
@@ -62,6 +40,10 @@ const config = {
 		},
 	},
   resolve: {
+		modules: [
+			paths.appSrc,
+			"node_modules",
+		],
     extensions: [
       ".js",
       ".jsx",
@@ -118,44 +100,27 @@ const config = {
 		new CopyWebpackPlugin([
 			{ from: "public" },
 		]),
-		new HtmlWebpackPlugin({
-			inject: true,
-			chunks: ["home"],
-			filename: "home.html",
-			template: "./templates/home.html",
-			favicon: "./public/favicon.ico",
-			minify: {
-				removeComments: true,
-				collapseWhitespace: true,
-				removeRedundantAttributes: true,
-				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
-				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true,
-			},
-		}),
-		new HtmlWebpackPlugin({
-			inject: true,
-			filename: "signup.html",
-			chunks: ["signup"],
-			template: "./templates/signup.html",
-			favicon: "./public/favicon.ico",
-			minify: {
-				removeComments: true,
-				collapseWhitespace: true,
-				removeRedundantAttributes: true,
-				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
-				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true,
-			},
-		}),
+		...Object.keys(pages.entries).map(entryName =>
+			new HtmlWebpackPlugin({
+				inject: true,
+				chunks: [entryName],
+				filename: `${entryName}.html`,
+				template: `./templates/${entryName}.html`,
+				favicon: "./public/favicon.ico",
+				minify: {
+					removeComments: true,
+					collapseWhitespace: true,
+					removeRedundantAttributes: true,
+					useShortDoctype: true,
+					removeEmptyAttributes: true,
+					removeStyleLinkTypeAttributes: true,
+					keepClosingSlash: true,
+					minifyJS: true,
+					minifyCSS: true,
+					minifyURLs: true,
+				},
+			})
+		),
 		new MiniCssExtractPlugin({
 			filename: "static/css/[name].[contenthash:8].css",
 			chunkFilename: "static/css/[name].[contenthash:8].chunk.css",

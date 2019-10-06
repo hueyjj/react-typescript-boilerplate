@@ -17,7 +17,7 @@ const config = {
 	mode: "production",
   entry: pages.entries,
   output: {
-    path: paths.appBuild,
+		path: paths.appBuild,
 		filename: "static/js/[name].[contenthash:8].js",
 		futureEmitAssets: true,
 		chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
@@ -60,6 +60,10 @@ const config = {
 		},
 	},
   resolve: {
+		modules: [
+			paths.appSrc,
+			"node_modules",
+		],
     extensions: [
       ".js",
       ".jsx",

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "serve ./build",
-    "watch": "webpack --config ./config/webpack.config.dev.js",
+    "watch": "webpack --watch --progress --config ./config/webpack.config.dev.js",
     "build": "webpack --config ./config/webpack.config.prod.js"
   },
   "devDependencies": {

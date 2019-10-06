@@ -10,4 +10,6 @@ module.exports = {
   appPath: resolveApp("."),
   appBuild: resolveApp("build"),
   appPages: resolveApp("src/pages"),
+  appSrc: resolveApp("src"),
 };
+console.log(module.exports)
