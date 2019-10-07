@@ -15,7 +15,7 @@ const config = {
 		poll: 1000,
 		ignored: /node_modules/,
 	},
-	stats: "minimal",
+	stats: "normal",
 	devtool: "inline-source-map",
   entry: pages.entries,
   output: {
