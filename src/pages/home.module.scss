@@ -4,3 +4,8 @@ body {
   color: $primary-color;
   background-color: $bg;
 }
+
+$white: white;
+.homeContainer {
+  background-color: $white;
+}

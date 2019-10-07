@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from "react-dom";
-import "../styles.scss";
+import styles from "./home.module.scss";
 
 import sum from "utils/fight";
 
@@ -10,7 +10,7 @@ interface Props {
 
 class App extends React.Component<Props> {
   render() {
-    return <div>Helo {sum(2, 3) + this.props.name}</div>;
+    return <div className={styles.homeContainer}>Hello {sum(2, 3) + this.props.name}</div>;
   }
 }
 
