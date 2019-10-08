@@ -49,6 +49,14 @@ const config = {
       {
         oneOf: [
           {
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: 'static/media/[name].[hash:8].[ext]',
+            },
+          },
+          {
             test: /\.(js|jsx)$/,
             use: "babel-loader",
             exclude: /node_modules/
@@ -61,7 +69,10 @@ const config = {
           {
             test: /\.scss$/,
             use: [
-              MiniCssExtractPlugin.loader,
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {},
+              },
               {
                 loader: "css-loader",
                 options: {
@@ -70,17 +81,9 @@ const config = {
                   modules: true,
                 },
               },
-              "sass-loader"
-            ]
-          },
-          {
-            test: /\.png$/,
-            use: [
               {
-                loader: "url-loader",
-                options: {
-                  mimetype: "image/png"
-                }
+                loader: "sass-loader",
+                options: {},
               }
             ]
           },
