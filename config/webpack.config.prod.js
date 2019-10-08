@@ -136,7 +136,6 @@ const config = {
         chunks: [entryName],
         filename: `${entryName}.html`,
         template: `./templates/${entryName}.html`,
-        favicon: "./public/favicon.ico",
         minify: {
           removeComments: true,
           collapseWhitespace: true,
